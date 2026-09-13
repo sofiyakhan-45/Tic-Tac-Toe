@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Tic Tac Toe</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,183 +17,100 @@
             background: linear-gradient(135deg, #111, #2b0000);
             color: white;
             min-height: 100vh;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             padding: 20px;
         }
-
-        /* Main Game */
 
         .game {
             width: 100%;
             max-width: 620px;
-
             text-align: center;
-
             background: rgba(255, 255, 255, 0.08);
-
             padding: clamp(20px, 4vw, 35px);
-
             border-radius: 22px;
-
-            box-shadow:
-                0 0 30px rgba(255, 0, 0, 0.25),
-                inset 0 0 20px rgba(255, 255, 255, 0.03);
-
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
         }
-
-
-        /* Heading */
 
         h1 {
             color: #ff3030;
-
-            font-size: clamp(28px, 5vw, 42px);
-
+            font-size: clamp(28px, 6vw, 42px);
             margin-bottom: 8px;
         }
 
         .subtitle {
             color: #bbb;
-
             font-size: clamp(13px, 2vw, 16px);
-
             margin-bottom: 25px;
         }
 
-
-        /* Players */
-
         .players {
             display: flex;
-
-            justify-content: space-between;
-
             gap: 15px;
-
-            width: 100%;
-
             margin-bottom: 20px;
         }
 
         .player {
             flex: 1;
-
             padding: 14px 10px;
-
             border-radius: 12px;
-
             background: #222;
-
             border: 1px solid #444;
-
-            font-size: clamp(14px, 2vw, 17px);
-
+            font-size: clamp(13px, 2vw, 17px);
             transition: 0.3s;
         }
 
         .player.active {
             border-color: red;
-
-            box-shadow:
-                0 0 12px rgba(255, 0, 0, 0.5);
-
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
             transform: translateY(-2px);
         }
 
-
-        /* Board */
-
         .board {
             display: grid;
-
             grid-template-columns: repeat(3, 1fr);
-
             gap: clamp(7px, 1.5vw, 12px);
-
             width: 100%;
-
             max-width: 540px;
-
             margin: 20px auto;
         }
 
-
-        /* Cells */
-
         .cell {
             width: 100%;
-
             aspect-ratio: 1 / 1;
-
             border: none;
-
             border-radius: 12px;
-
             background: #1c1c1c;
-
             color: white;
-
-            font-size: clamp(32px, 7vw, 52px);
-
+            font-size: clamp(32px, 8vw, 52px);
             font-weight: bold;
-
             cursor: pointer;
-
             transition: 0.2s;
-
-            box-shadow:
-                inset 0 0 8px rgba(255, 255, 255, 0.03);
         }
 
         .cell:hover {
             background: #2b2b2b;
-
             transform: scale(1.03);
         }
 
-        .cell:active {
-            transform: scale(0.97);
-        }
-
-
-        /* X */
-
         .cell.x {
             color: #ff3b3b;
-
-            text-shadow:
-                0 0 12px rgba(255, 0, 0, 0.5);
+            text-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
         }
-
-
-        /* O */
 
         .cell.o {
             color: white;
-
-            text-shadow:
-                0 0 12px rgba(255, 255, 255, 0.25);
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
         }
-
-
-        /* Winning Cells */
 
         .cell.win {
             background: #620000;
-
-            box-shadow:
-                0 0 18px rgba(255, 0, 0, 0.6);
-
+            box-shadow: 0 0 18px rgba(255, 0, 0, 0.7);
             animation: winner 0.7s infinite alternate;
         }
 
         @keyframes winner {
-
             from {
                 transform: scale(1);
             }
@@ -203,189 +118,102 @@
             to {
                 transform: scale(1.04);
             }
-
         }
-
-
-        /* Status */
 
         #status {
             font-size: clamp(16px, 3vw, 20px);
-
             margin: 18px 0;
-
             color: #ddd;
-
             min-height: 26px;
         }
 
-
-        /* Buttons */
-
         .buttons {
             display: flex;
-
             gap: 12px;
-
             width: 100%;
         }
 
         button.control {
             flex: 1;
-
             border: none;
-
             padding: 13px 10px;
-
             border-radius: 10px;
-
             cursor: pointer;
-
             font-size: clamp(13px, 2vw, 16px);
-
             font-weight: bold;
-
             transition: 0.2s;
         }
 
-
-        /* Restart */
-
         .restart {
             background: #e00000;
-
             color: white;
         }
 
         .restart:hover {
             background: #ff2222;
-
-            transform: translateY(-2px);
         }
-
-
-        /* Reset */
 
         .reset-score {
             background: #333;
-
             color: white;
         }
 
         .reset-score:hover {
             background: #444;
-
-            transform: translateY(-2px);
         }
-
-
-        /* Score */
 
         .score {
             display: flex;
-
             justify-content: space-around;
-
             gap: 10px;
-
             margin-top: 25px;
-
             padding-top: 18px;
-
             border-top: 1px solid #444;
         }
 
         .score div {
             color: #ccc;
-
             font-size: clamp(12px, 2vw, 15px);
         }
 
         .score span {
             display: block;
-
             font-size: clamp(22px, 4vw, 28px);
-
             color: white;
-
             margin-top: 5px;
         }
 
-
-        /* Tablet */
-
-        @media (max-width: 700px) {
-
-            body {
-                padding: 15px;
-            }
-
-            .game {
-                max-width: 560px;
-            }
-
-            .board {
-                max-width: 500px;
-            }
-
-        }
-
-
-        /* Mobile */
-
-        @media (max-width: 500px) {
-
+        @media (max-width: 600px) {
             body {
                 padding: 10px;
-
-                align-items: center;
             }
 
             .game {
                 width: 100%;
-
                 padding: 18px;
-
                 border-radius: 17px;
-            }
-
-            h1 {
-                font-size: 30px;
-            }
-
-            .subtitle {
-                margin-bottom: 18px;
             }
 
             .players {
                 gap: 8px;
-
-                margin-bottom: 15px;
             }
 
             .player {
                 padding: 11px 5px;
-
                 font-size: 13px;
             }
 
             .board {
-                width: 100%;
-
                 gap: 7px;
-
                 margin: 16px auto;
             }
 
             .cell {
                 border-radius: 9px;
-
-                font-size: clamp(28px, 12vw, 42px);
             }
 
             #status {
                 font-size: 16px;
-
                 margin: 14px 0;
             }
 
@@ -395,13 +223,11 @@
 
             button.control {
                 padding: 11px 5px;
-
                 font-size: 12px;
             }
 
             .score {
                 margin-top: 20px;
-
                 padding-top: 15px;
             }
 
@@ -412,14 +238,9 @@
             .score span {
                 font-size: 22px;
             }
-
         }
 
-
-        /* Small Mobile */
-
         @media (max-width: 360px) {
-
             body {
                 padding: 7px;
             }
@@ -436,32 +257,22 @@
                 font-size: 12px;
             }
 
-            .player {
-                font-size: 12px;
-
-                padding: 9px 4px;
-            }
-
             .board {
                 gap: 5px;
             }
 
             .cell {
                 border-radius: 7px;
+                font-size: 30px;
             }
 
             button.control {
                 font-size: 11px;
-
                 padding: 10px 4px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
@@ -469,12 +280,7 @@
 
         <h1>Tic Tac Toe</h1>
 
-        <p class="subtitle">
-            Classic X and O Game
-        </p>
-
-
-        <!-- Players -->
+        <p class="subtitle">Classic X and O Game</p>
 
         <div class="players">
 
@@ -488,10 +294,7 @@
 
         </div>
 
-
-        <!-- Game Board -->
-
-        <div class="board" id="board">
+        <div class="board">
 
             <button class="cell" onclick="makeMove(0)"></button>
             <button class="cell" onclick="makeMove(1)"></button>
@@ -507,187 +310,100 @@
 
         </div>
 
-
-        <!-- Status -->
-
         <div id="status">
             Player X's Turn
         </div>
 
-
-        <!-- Buttons -->
-
         <div class="buttons">
 
-            <button
-                class="control restart"
-                onclick="restartGame()">
-
+            <button class="control restart" onclick="restartGame()">
                 Restart Game
-
             </button>
 
-
-            <button
-                class="control reset-score"
-                onclick="resetScore()">
-
+            <button class="control reset-score" onclick="resetScore()">
                 Reset Score
-
             </button>
 
         </div>
 
-
-        <!-- Score -->
-
         <div class="score">
 
             <div>
-
                 X Wins
-
-                <span id="xScore">
-                    0
-                </span>
-
+                <span id="xScore">0</span>
             </div>
 
-
             <div>
-
                 Draws
-
-                <span id="drawScore">
-                    0
-                </span>
-
+                <span id="drawScore">0</span>
             </div>
 
-
             <div>
-
                 O Wins
-
-                <span id="oScore">
-                    0
-                </span>
-
+                <span id="oScore">0</span>
             </div>
 
         </div>
 
     </div>
 
-
     <script>
 
-        /* Game Data */
-
-        let board = [
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ];
+        let board = ["", "", "", "", "", "", "", "", ""];
 
         let currentPlayer = "X";
 
         let gameOver = false;
 
-
-        /* Score */
-
         let xWins = 0;
-
         let oWins = 0;
-
         let draws = 0;
 
+        const cells = document.querySelectorAll(".cell");
 
-        /* HTML Elements */
-
-        const cells =
-            document.querySelectorAll(".cell");
-
-        const status =
-            document.getElementById("status");
-
-
-        /* Winning Patterns */
+        const status = document.getElementById("status");
 
         const winningPatterns = [
 
             [0, 1, 2],
-
             [3, 4, 5],
-
             [6, 7, 8],
 
             [0, 3, 6],
-
             [1, 4, 7],
-
             [2, 5, 8],
 
             [0, 4, 8],
-
             [2, 4, 6]
 
         ];
 
-
-        /* Make Move */
-
         function makeMove(index) {
 
-            if (
-                board[index] !== "" ||
-                gameOver
-            ) {
-
+            if (board[index] !== "" || gameOver) {
                 return;
-
             }
-
 
             board[index] = currentPlayer;
 
-            cells[index].textContent =
-                currentPlayer;
+            cells[index].textContent = currentPlayer;
 
             cells[index].classList.add(
                 currentPlayer.toLowerCase()
             );
 
-
             checkWinner();
-
         }
-
-
-        /* Check Winner */
 
         function checkWinner() {
 
             let winningPattern = null;
 
-
-            for (
-                let pattern of winningPatterns
-            ) {
+            for (let pattern of winningPatterns) {
 
                 let a = pattern[0];
-
                 let b = pattern[1];
-
                 let c = pattern[2];
-
 
                 if (
                     board[a] !== "" &&
@@ -696,65 +412,40 @@
                 ) {
 
                     winningPattern = pattern;
-
                     break;
-
                 }
-
             }
-
-
-            /* Winner */
 
             if (winningPattern) {
 
                 gameOver = true;
 
+                winningPattern.forEach(function(index) {
 
-                winningPattern.forEach(
-                    function(index) {
+                    cells[index].classList.add("win");
 
-                        cells[index]
-                            .classList
-                            .add("win");
-
-                    }
-                );
-
+                });
 
                 status.textContent =
-                    "Player " +
-                    currentPlayer +
-                    " Wins!";
-
+                    "Player " + currentPlayer + " Wins!";
 
                 if (currentPlayer === "X") {
 
                     xWins++;
 
-                    document.getElementById(
-                        "xScore"
-                    ).textContent = xWins;
+                    document.getElementById("xScore").textContent =
+                        xWins;
 
-                }
-
-                else {
+                } else {
 
                     oWins++;
 
-                    document.getElementById(
-                        "oScore"
-                    ).textContent = oWins;
-
+                    document.getElementById("oScore").textContent =
+                        oWins;
                 }
 
-
                 return;
-
             }
-
-
-            /* Draw */
 
             if (!board.includes("")) {
 
@@ -762,41 +453,23 @@
 
                 draws++;
 
-
-                document.getElementById(
-                    "drawScore"
-                ).textContent = draws;
-
+                document.getElementById("drawScore").textContent =
+                    draws;
 
                 status.textContent =
                     "It's a Draw!";
 
-
                 return;
-
             }
 
-
-            /* Change Player */
-
             currentPlayer =
-                currentPlayer === "X"
-                    ? "O"
-                    : "X";
-
+                currentPlayer === "X" ? "O" : "X";
 
             status.textContent =
-                "Player " +
-                currentPlayer +
-                "'s Turn";
-
+                "Player " + currentPlayer + "'s Turn";
 
             updatePlayer();
-
         }
-
-
-        /* Update Active Player */
 
         function updatePlayer() {
 
@@ -808,7 +481,6 @@
                     currentPlayer === "X"
                 );
 
-
             document
                 .getElementById("playerO")
                 .classList
@@ -816,87 +488,50 @@
                     "active",
                     currentPlayer === "O"
                 );
-
         }
-
-
-        /* Restart Game */
 
         function restartGame() {
 
-            board = [
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
-            ];
+            board = ["", "", "", "", "", "", "", "", ""];
 
             currentPlayer = "X";
 
             gameOver = false;
 
+            cells.forEach(function(cell) {
 
-            cells.forEach(
-                function(cell) {
+                cell.textContent = "";
 
-                    cell.textContent = "";
+                cell.classList.remove(
+                    "x",
+                    "o",
+                    "win"
+                );
 
-                    cell.classList.remove(
-                        "x",
-                        "o",
-                        "win"
-                    );
-
-                }
-            );
-
+            });
 
             status.textContent =
                 "Player X's Turn";
 
-
             updatePlayer();
-
         }
-
-
-        /* Reset Score */
 
         function resetScore() {
 
             xWins = 0;
-
             oWins = 0;
-
             draws = 0;
 
+            document.getElementById("xScore").textContent = "0";
 
-            document.getElementById(
-                "xScore"
-            ).textContent = "0";
+            document.getElementById("oScore").textContent = "0";
 
-
-            document.getElementById(
-                "oScore"
-            ).textContent = "0";
-
-
-            document.getElementById(
-                "drawScore"
-            ).textContent = "0";
-
+            document.getElementById("drawScore").textContent = "0";
 
             restartGame();
-
         }
 
     </script>
 
 </body>
-
 </html>
