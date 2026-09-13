@@ -3,151 +3,342 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tic-Tac-Toe</title>
+
+<title>Tic-Tac-Toe Game</title>
 
 <style>
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background: #111;
+    background: linear-gradient(135deg, #080808, #1b0000, #080808);
     color: white;
+    font-family: Arial, sans-serif;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     padding: 20px;
 }
 
-.game {
+.game-container {
     width: 100%;
-    max-width: 620px;
+    max-width: 650px;
+
+    background: rgba(20, 20, 20, 0.95);
+
+    border: 1px solid #ff3333;
+    border-radius: 20px;
+
+    padding: 30px;
+
     text-align: center;
+
+    box-shadow:
+        0 0 20px rgba(255, 0, 0, 0.25),
+        0 0 60px rgba(255, 0, 0, 0.08);
 }
 
 h1 {
-    margin-bottom: 10px;
+    font-size: clamp(32px, 6vw, 52px);
+    color: #ff3333;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #aaa;
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+.turn {
+    font-size: 22px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+    color: white;
+}
+
+.turn span {
     color: #ff3333;
 }
 
-.status {
-    margin: 10px 0 20px;
-    font-size: 20px;
-}
-
-.score {
+.score-board {
     display: flex;
     justify-content: center;
     gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+
+    margin-bottom: 25px;
 }
 
-.score div {
-    background: #1d1d1d;
-    border: 1px solid #444;
-    border-radius: 10px;
-    padding: 10px 18px;
-    min-width: 100px;
+.score-box {
+    flex: 1;
+    max-width: 150px;
+
+    padding: 14px 10px;
+
+    background: #151515;
+
+    border: 1px solid #333;
+    border-radius: 12px;
+}
+
+.score-box h3 {
+    font-size: 15px;
+    color: #aaa;
+    margin-bottom: 7px;
+}
+
+.score-box p {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff3333;
 }
 
 .board {
-    width: min(90vw, 500px);
+    width: min(90vw, 480px);
     aspect-ratio: 1;
+
     margin: auto;
+
     display: grid;
+
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+
+    gap: 10px;
 }
 
 .cell {
+    background: #181818;
+
     border: 2px solid #ff3333;
-    border-radius: 12px;
-    background: #1c1c1c;
-    color: white;
-    font-size: clamp(45px, 10vw, 80px);
-    font-weight: bold;
-    cursor: pointer;
+
+    border-radius: 15px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-size: clamp(45px, 12vw, 85px);
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        background 0.2s,
+        box-shadow 0.2s;
 }
 
 .cell:hover {
-    background: #292929;
+    background: #252525;
+
+    transform: scale(1.03);
+
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
 
 .cell.x {
     color: #ff3333;
+
+    text-shadow:
+        0 0 10px rgba(255, 0, 0, 0.7),
+        0 0 25px rgba(255, 0, 0, 0.3);
 }
 
 .cell.o {
     color: white;
+
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.cell.winner {
+    background: #390000;
+
+    animation: winnerGlow 0.8s infinite alternate;
+}
+
+@keyframes winnerGlow {
+
+    from {
+        box-shadow: 0 0 5px #ff3333;
+    }
+
+    to {
+        box-shadow:
+            0 0 20px #ff3333,
+            0 0 40px rgba(255, 0, 0, 0.4);
+    }
 }
 
 .buttons {
-    margin-top: 22px;
     display: flex;
     justify-content: center;
+
     gap: 12px;
+
+    margin-top: 25px;
+
     flex-wrap: wrap;
 }
 
 button {
     border: none;
-    border-radius: 8px;
-    padding: 12px 22px;
+
+    padding: 13px 24px;
+
+    border-radius: 9px;
+
     font-size: 16px;
+
+    font-weight: bold;
+
     cursor: pointer;
+
+    transition: 0.2s;
 }
 
-.restart {
+.restart-btn {
     background: #ff3333;
     color: white;
 }
 
-.reset {
+.restart-btn:hover {
+    background: #e00000;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+.reset-btn {
     background: #333;
     color: white;
 }
 
-@media (max-width: 480px) {
-    body {
-        padding: 12px;
-    }
+.reset-btn:hover {
+    background: #444;
 
-    h1 {
-        font-size: 30px;
-    }
+    transform: translateY(-2px);
+}
 
-    .status {
-        font-size: 17px;
-    }
+.message {
+    min-height: 24px;
 
-    .score {
-        gap: 8px;
-    }
+    margin-top: 15px;
 
-    .score div {
-        min-width: 85px;
-        padding: 8px 10px;
-        font-size: 14px;
+    color: #aaa;
+
+    font-size: 14px;
+}
+
+
+/* Tablet */
+
+@media (max-width: 700px) {
+
+    .game-container {
+        padding: 25px 20px;
     }
 
     .board {
-        gap: 5px;
+        width: min(88vw, 430px);
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .game-container {
+        padding: 22px 14px;
+
+        border-radius: 16px;
+    }
+
+    .subtitle {
+        margin-bottom: 20px;
+    }
+
+    .turn {
+        font-size: 19px;
+    }
+
+    .score-board {
+        gap: 7px;
+    }
+
+    .score-box {
+        padding: 10px 5px;
+    }
+
+    .score-box h3 {
+        font-size: 12px;
+    }
+
+    .score-box p {
+        font-size: 22px;
+    }
+
+    .board {
+        width: min(92vw, 380px);
+
+        gap: 6px;
     }
 
     .cell {
-        border-radius: 8px;
+        border-radius: 10px;
+    }
+
+    .buttons {
+        flex-direction: column;
+
+        align-items: center;
     }
 
     button {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
+    }
+}
+
+
+/* Very small screens */
+
+@media (max-width: 360px) {
+
+    .game-container {
+        padding: 18px 10px;
+    }
+
+    .board {
+        gap: 4px;
+    }
+
+    .cell {
+        border-radius: 7px;
+    }
+
+    .score-box h3 {
+        font-size: 11px;
+    }
+
+    .score-box p {
+        font-size: 19px;
     }
 }
 </style>
@@ -155,216 +346,358 @@ button {
 
 <body>
 
-<div class="game">
+<div class="game-container">
 
     <h1>Tic-Tac-Toe</h1>
 
-    <div class="status" id="status">
-        Player X's Turn
+    <div class="subtitle">
+        Two Player Game
     </div>
 
-    <div class="score">
-        <div>
-            Player X:
-            <span id="scoreX">0</span>
-        </div>
-
-        <div>
-            Player O:
-            <span id="scoreO">0</span>
-        </div>
-
-        <div>
-            Draws:
-            <span id="draws">0</span>
-        </div>
+    <div class="turn" id="turnText">
+        Player <span>X</span>'s Turn
     </div>
 
-    <div class="board" id="board"></div>
+
+    <div class="score-board">
+
+        <div class="score-box">
+            <h3>PLAYER X</h3>
+            <p id="scoreX">0</p>
+        </div>
+
+        <div class="score-box">
+            <h3>DRAWS</h3>
+            <p id="drawScore">0</p>
+        </div>
+
+        <div class="score-box">
+            <h3>PLAYER O</h3>
+            <p id="scoreO">0</p>
+        </div>
+
+    </div>
+
+
+    <div class="board" id="board">
+
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+
+    </div>
+
+
+    <div class="message" id="message"></div>
+
 
     <div class="buttons">
-        <button class="restart" onclick="restartGame()">
+
+        <button
+            class="restart-btn"
+            onclick="restartGame()">
             Restart Game
         </button>
 
-        <button class="reset" onclick="resetScore()">
+        <button
+            class="reset-btn"
+            onclick="resetScore()">
             Reset Score
         </button>
+
     </div>
 
 </div>
 
+
 <script>
 
-const board = document.getElementById("board");
-const statusText = document.getElementById("status");
+const cells = document.querySelectorAll(".cell");
 
-let currentPlayer = "X";
-let gameOver = false;
+const turnText = document.getElementById("turnText");
 
-let cells = [
-    "", "", "",
-    "", "", "",
-    "", "", ""
+const message = document.getElementById("message");
+
+const scoreXElement = document.getElementById("scoreX");
+
+const scoreOElement = document.getElementById("scoreO");
+
+const drawScoreElement = document.getElementById("drawScore");
+
+
+let board = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
 ];
 
+
+let currentPlayer = "X";
+
+let gameRunning = true;
+
 let scoreX = 0;
+
 let scoreO = 0;
+
 let draws = 0;
+
 
 const winningPatterns = [
 
     [0, 1, 2],
+
     [3, 4, 5],
+
     [6, 7, 8],
 
     [0, 3, 6],
+
     [1, 4, 7],
+
     [2, 5, 8],
 
     [0, 4, 8],
+
     [2, 4, 6]
 
 ];
 
-function createBoard() {
 
-    board.innerHTML = "";
+cells.forEach(function(cell) {
 
-    cells.forEach(function(value, index) {
+    cell.addEventListener("click", function() {
 
-        const cell = document.createElement("div");
+        const index = cell.getAttribute("data-index");
 
-        cell.className = "cell";
-
-        if (value === "X") {
-            cell.classList.add("x");
-        }
-
-        if (value === "O") {
-            cell.classList.add("o");
-        }
-
-        cell.textContent = value;
-
-        cell.onclick = function() {
-            playMove(index);
-        };
-
-        board.appendChild(cell);
+        playGame(index);
 
     });
-}
 
-function playMove(index) {
+});
 
-    if (cells[index] !== "" || gameOver) {
+
+function playGame(index) {
+
+    if (!gameRunning) {
         return;
     }
 
-    cells[index] = currentPlayer;
+    if (board[index] !== "") {
+        return;
+    }
 
-    createBoard();
 
-    if (checkWinner()) {
+    board[index] = currentPlayer;
 
-        statusText.textContent =
-            "Player " + currentPlayer + " Wins!";
 
-        gameOver = true;
+    cells[index].textContent = currentPlayer;
+
+    cells[index].classList.add(
+        currentPlayer.toLowerCase()
+    );
+
+
+    const winningPattern = checkWinner();
+
+
+    if (winningPattern) {
+
+        gameRunning = false;
+
+        winningPattern.forEach(function(index) {
+
+            cells[index].classList.add("winner");
+
+        });
+
+
+        message.textContent =
+            "Player " + currentPlayer + " won the game!";
+
 
         if (currentPlayer === "X") {
+
             scoreX++;
+
         } else {
+
             scoreO++;
+
         }
+
 
         updateScore();
 
+        turnText.innerHTML =
+            "Player <span>" +
+            currentPlayer +
+            "</span> Wins!";
+
+
         return;
     }
 
-    if (cells.every(function(cell) {
-        return cell !== "";
+
+    if (board.every(function(value) {
+
+        return value !== "";
+
     })) {
 
-        statusText.textContent = "Game Draw!";
+        gameRunning = false;
 
         draws++;
 
-        gameOver = true;
-
         updateScore();
+
+        message.textContent =
+            "Nobody wins this round.";
+
+        turnText.textContent =
+            "Game Draw!";
 
         return;
     }
 
+
     if (currentPlayer === "X") {
+
         currentPlayer = "O";
+
     } else {
+
         currentPlayer = "X";
+
     }
 
-    statusText.textContent =
-        "Player " + currentPlayer + "'s Turn";
+
+    turnText.innerHTML =
+        "Player <span>" +
+        currentPlayer +
+        "</span>'s Turn";
+
 }
+
 
 function checkWinner() {
 
-    return winningPatterns.some(function(pattern) {
+    for (
+        let i = 0;
+        i < winningPatterns.length;
+        i++
+    ) {
+
+        const pattern = winningPatterns[i];
 
         const a = pattern[0];
+
         const b = pattern[1];
+
         const c = pattern[2];
 
-        return (
-            cells[a] !== "" &&
-            cells[a] === cells[b] &&
-            cells[a] === cells[c]
-        );
 
-    });
+        if (
+
+            board[a] !== "" &&
+
+            board[a] === board[b] &&
+
+            board[a] === board[c]
+
+        ) {
+
+            return pattern;
+
+        }
+
+    }
+
+
+    return null;
 }
+
 
 function restartGame() {
 
-    cells = [
-        "", "", "",
-        "", "", "",
-        "", "", ""
+    board = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
     ];
+
 
     currentPlayer = "X";
 
-    gameOver = false;
+    gameRunning = true;
 
-    statusText.textContent =
-        "Player X's Turn";
 
-    createBoard();
+    cells.forEach(function(cell) {
+
+        cell.textContent = "";
+
+        cell.classList.remove(
+            "x",
+            "o",
+            "winner"
+        );
+
+    });
+
+
+    turnText.innerHTML =
+        "Player <span>X</span>'s Turn";
+
+
+    message.textContent = "";
+
 }
+
 
 function resetScore() {
 
     scoreX = 0;
+
     scoreO = 0;
+
     draws = 0;
+
 
     updateScore();
 
     restartGame();
+
 }
+
 
 function updateScore() {
 
-    document.getElementById("scoreX").textContent = scoreX;
+    scoreXElement.textContent = scoreX;
 
-    document.getElementById("scoreO").textContent = scoreO;
+    scoreOElement.textContent = scoreO;
 
-    document.getElementById("draws").textContent = draws;
+    drawScoreElement.textContent = draws;
+
 }
-
-createBoard();
 
 </script>
 
